@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<table class="table table-bordered table-hover">
+<table class="table table-bordered table-hover table-sm">
   <thead class="thead-dark">
     <tr>
       <th>Name</th>
@@ -16,4 +16,7 @@
 
 </table>
 
+<div class="row justify-content-center">
+  {{ $employees->links() }}
+</div>
 @endsection
