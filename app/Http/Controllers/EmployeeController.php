@@ -14,7 +14,9 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        //
+        $employees = Employee::where('id', 1)->get();
+
+        return view('employee.index', compact('employees'));
     }
 
     /**
