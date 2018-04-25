@@ -8,15 +8,24 @@ use Illuminate\Http\Request;
 class EmployeeController extends Controller
 {
     /**
+     * Display a tree-like listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function tree()
+    {
+        $employees = Employee::where('id', 1)->get();
+
+        return view('employee.tree', compact('employees'));
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $employees = Employee::where('id', 1)->get();
-
-        return view('employee.index', compact('employees'));
     }
 
     /**
