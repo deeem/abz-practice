@@ -1,3 +1,7 @@
+@extends('layouts.app')
+
+@section('content')
+
 @if ($employees->count())
   <ul>
     @each('partials.employee', $employees, 'employee')
@@ -5,3 +9,5 @@
 @else
   @include('partials.employee-empty')
 @endif
+
+@endsection
