@@ -8,5 +8,6 @@ $factory->define(App\Employee::class, function (Faker $faker) {
         'position' => $faker->jobTitle,
         'hired' => $faker->dateTimeInInterval('-3 years', '- 5 days', null),
         'salary' => $faker->numberBetween(200, 3000),
+        'parent_id' => null,
     ];
 });
