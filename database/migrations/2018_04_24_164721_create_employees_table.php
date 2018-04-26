@@ -18,7 +18,7 @@ class CreateEmployeesTable extends Migration
             $table->integer('parent_id')->unsigned()->nullable();
             $table->string('name');
             $table->string('position');
-            $table->dateTime('hired');
+            $table->date('hired');
             $table->integer('salary');
             $table->timestamps();
 

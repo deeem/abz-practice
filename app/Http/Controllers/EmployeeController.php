@@ -8,15 +8,56 @@ use Illuminate\Http\Request;
 class EmployeeController extends Controller
 {
     /**
+     * Display a tree-like listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function tree()
+    {
+        $employees = Employee::where('id', 1)->get();
+
+        return view('employee.tree', compact('employees'));
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $employees = Employee::where('id', 1)->get();
+        $query = Employee::query();
+        $filters = [];
 
-        return view('employee.index', compact('employees'));
+        if ($name = request('name')) {
+            $query = $query->where('name', 'like', "%{$name}%");
+            $filters['name'] = $name;
+        }
+
+        if ($position = request('position')) {
+            $query = $query->where('position', 'like', "%{$position}%");
+            $filters['position'] = $position;
+        }
+
+        if ($hired = request('hired')) {
+            $query = $query->where('hired', $hired);
+            $filters['hired'] = $hired;
+        }
+
+        if ($salary = request('salary')) {
+            $query = $query->where('salary', $salary);
+            $filters['salary'] = $salary;
+        }
+
+        if ($sort = request('sort')) {
+            $query = $query->orderBy($sort, 'asc');
+            $filters['sort'] = $sort;
+        }
+
+        $employees = $query->paginate(20);
+        $employees->appends($filters)->links();
+
+        return view('employee.index', compact('employees', 'filters'));
     }
 
     /**
