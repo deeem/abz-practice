@@ -6,7 +6,7 @@ $factory->define(App\Employee::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'position' => $faker->jobTitle,
-        'hired' => $faker->dateTimeInInterval('-3 years', '- 5 days', null),
+        'hired' => $faker->date(),
         'salary' => $faker->numberBetween(200, 3000),
         'parent_id' => null,
     ];
