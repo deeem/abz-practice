@@ -26,12 +26,36 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        if ($sort = request('sort')) {
-            $employees = Employee::orderBy($sort, 'asc')->paginate(25);
-            $employees->appends(['sort' => $sort])->links();
-        } else {
-            $employees = Employee::paginate(25);
+        $query = Employee::query();
+        $paginationLinks = [];
+
+        if ($name = request('name')) {
+            $query = $query->where('name', 'like', "%{$name}%");
+            $paginationLinks['name'] = $name;
         }
+
+        if ($position = request('position')) {
+            $query = $query->where('position', 'like', "%{$position}%");
+            $paginationLinks['position'] = $position;
+        }
+
+        if ($hired = request('hired')) {
+            $query = $query->where('hired', $hired);
+            $paginationLinks['hired'] = $hired;
+        }
+
+        if ($salary = request('salary')) {
+            $query = $query->where('salary', $salary);
+            $paginationLinks['salary'] = $salary;
+        }
+
+        if ($sort = request('sort')) {
+            $query = $query->orderBy($sort, 'asc');
+            $paginationLinks['sort'] = $sort;
+        }
+
+        $employees = $query->paginate(25);
+        $employees->appends($paginationLinks)->links();
 
         return view('employee.index', compact('employees'));
     }
