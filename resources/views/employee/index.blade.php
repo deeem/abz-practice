@@ -14,6 +14,7 @@
   <form class="form-inline" method="GET" action="{{ route('employee') }}">
     <input type="text" class="form-control mb-2 mr-sm-2" name="name" placeholder="Name">
     <input type="text" class="form-control mb-2 mr-sm-2" name="position" placeholder="Position">
+    <input type="date" class="form-control mb-2 mr-sm-2" name="hired">
     <input type="text" class="form-control mb-2 mr-sm-2" name="salary" placeholder="Salary">
 
     <button type="submit" class="btn btn-primary mb-2">Search</button>
