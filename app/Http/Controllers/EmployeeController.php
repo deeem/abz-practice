@@ -26,7 +26,12 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employees = Employee::paginate(25);
+        if ($sort = request('sort')) {
+            $employees = Employee::orderBy($sort, 'asc')->paginate(25);
+            $employees->appends(['sort' => $sort])->links();
+        } else {
+            $employees = Employee::paginate(25);
+        }
 
         return view('employee.index', compact('employees'));
     }

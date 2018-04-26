@@ -19,4 +19,4 @@ Route::get('/', function () {
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/employee-tree', 'EmployeeController@tree')->middleware('auth');
-Route::get('/employee', 'EmployeeController@index')->middleware('auth');
+Route::get('/employee', 'EmployeeController@index')->middleware('auth')->name('employee');
