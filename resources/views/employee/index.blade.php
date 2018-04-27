@@ -21,14 +21,6 @@
   </form>
 </div>
 
-@if($filters)
-<div class="row justify-content-center">
-  <p class="font-weight-bold">Query result &nbsp;&nbsp;</p>
-  @foreach($filters as $key=>$value)
-    <p>{{ $key }} : <span class="badge badge-info">{{ $value }}</span> &nbsp;&nbsp;</p>
-  @endforeach
-</div>
-@endif
 
 <div class="employee-table">
   @include('partials.employee-table')

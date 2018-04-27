@@ -59,7 +59,11 @@ class EmployeeController extends Controller
         $employees->appends($filters)->links();
 
         if (request()->ajax()) {
-            return response()->json(View::make('partials.employee-table', array('employees' => $employees))->render());
+            return response()->json(
+                View::make(
+                    'partials.employee-table',
+                    ['employees' => $employees, 'filters' => $filters]
+                )->render());
         }
 
         return view('employee.index', compact('employees', 'filters'));
