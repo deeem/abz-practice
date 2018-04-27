@@ -10,7 +10,7 @@ $(document).ready(function() {
     e.preventDefault();
   });
 
-  $( "form" ).on( "submit", function( event ) {
+  $('.employee-table-search form').on( 'submit', function( event ) {
     event.preventDefault();
     getEmployees($(location).attr('href') + '/?' + $( this ).serialize());
   });
