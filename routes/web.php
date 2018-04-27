@@ -25,3 +25,4 @@ Route::post('/employee/store', 'EmployeeController@store')->name('employee.store
 Route::get('/employee/{employee}/edit', 'EmployeeController@edit')->name('employee.edit')->middleware('auth');
 Route::put('/employee/{employee}', 'EmployeeController@update')->name('employee.update')->middleware('auth');
 Route::get('/employee/{employee}/show', 'EmployeeController@show')->name('employee.show')->middleware('auth');
+Route::delete('/employee/{employee}', 'EmployeeController@destroy')->name('employee.destroy')->middleware('auth');

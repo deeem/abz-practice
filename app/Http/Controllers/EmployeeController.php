@@ -141,6 +141,8 @@ class EmployeeController extends Controller
      */
     public function destroy(Employee $employee)
     {
-        //
+        Employee::destroy($employee->id);
+
+        return redirect()->route('employee');
     }
 }
