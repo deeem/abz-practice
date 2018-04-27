@@ -24,3 +24,4 @@ Route::get('/employee/create', 'EmployeeController@create')->name('employee.crea
 Route::post('/employee/store', 'EmployeeController@store')->name('employee.store')->middleware('auth');
 Route::get('/employee/{employee}/edit', 'EmployeeController@edit')->name('employee.edit')->middleware('auth');
 Route::put('/employee/{employee}', 'EmployeeController@update')->name('employee.update')->middleware('auth');
+Route::get('/employee/{employee}/show', 'EmployeeController@show')->name('employee.show')->middleware('auth');
