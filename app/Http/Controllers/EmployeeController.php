@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Employee;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 
 class EmployeeController extends Controller
 {
@@ -56,6 +57,10 @@ class EmployeeController extends Controller
 
         $employees = $query->paginate(20);
         $employees->appends($filters)->links();
+
+        if (request()->ajax()) {
+            return response()->json(View::make('partials.employee-table', array('employees' => $employees))->render());
+        }
 
         return view('employee.index', compact('employees', 'filters'));
     }
