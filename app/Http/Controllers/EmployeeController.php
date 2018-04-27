@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Employee;
+use App\Http\Requests\StoreEmployeeRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 
@@ -76,18 +77,21 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        //
+        return view('employee.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\StoreEmployeeRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreEmployeeRequest $request)
     {
-        //
+        $data = $request->only('name', 'position', 'hired', 'salary');
+        Employee::create($data);
+
+        return redirect()->route('employee');
     }
 
     /**

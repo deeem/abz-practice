@@ -20,3 +20,5 @@ Route::get('/', function () {
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/employee-tree', 'EmployeeController@tree')->middleware('auth');
 Route::get('/employee', 'EmployeeController@index')->middleware('auth')->name('employee');
+Route::get('/employee/create', 'EmployeeController@create')->name('employee.create')->middleware('auth');
+Route::post('/employee/store', 'EmployeeController@store')->name('employee.store')->middleware('auth');
