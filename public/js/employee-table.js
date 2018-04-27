@@ -5,6 +5,11 @@ $(document).ready(function() {
     e.preventDefault();
   });
 
+  $(document).on('click', '.employee-table-sort a', function (e) {
+    getPosts($(this).attr('href'));
+    e.preventDefault();
+  })
+
   function getPosts(url) {
     $.ajax({
         url: url,
