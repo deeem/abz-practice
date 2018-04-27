@@ -1,21 +1,21 @@
 $(document).ready(function() {
 
   $(document).on('click', '.pagination a', function (e) {
-    getPosts($(this).attr('href'));
+    getEmployees($(this).attr('href'));
     e.preventDefault();
   });
 
   $(document).on('click', '.employee-table-sort a', function (e) {
-    getPosts($(this).attr('href'));
+    getEmployees($(this).attr('href'));
     e.preventDefault();
   });
 
   $( "form" ).on( "submit", function( event ) {
     event.preventDefault();
-    getPosts($(location).attr('href') + '/?' + $( this ).serialize());
+    getEmployees($(location).attr('href') + '/?' + $( this ).serialize());
   });
 
-  function getPosts(url) {
+  function getEmployees(url) {
     $.ajax({
         url: url,
         dataType: 'json',
