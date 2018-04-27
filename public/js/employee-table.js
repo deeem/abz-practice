@@ -8,7 +8,12 @@ $(document).ready(function() {
   $(document).on('click', '.employee-table-sort a', function (e) {
     getPosts($(this).attr('href'));
     e.preventDefault();
-  })
+  });
+
+  $( "form" ).on( "submit", function( event ) {
+    event.preventDefault();
+    getPosts($(location).attr('href') + '/?' + $( this ).serialize());
+  });
 
   function getPosts(url) {
     $.ajax({

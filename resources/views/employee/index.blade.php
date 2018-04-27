@@ -10,7 +10,7 @@
   </p>
 </div>
 
-<div class="row justify-content-center">
+<div class="row justify-content-center employee-table-search">
   <form class="form-inline" method="GET" action="{{ route('employee') }}">
     <input type="text" class="form-control mb-2 mr-sm-2" name="name" placeholder="Name">
     <input type="text" class="form-control mb-2 mr-sm-2" name="position" placeholder="Position">
