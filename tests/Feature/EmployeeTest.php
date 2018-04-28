@@ -26,7 +26,7 @@ class EmployeeTest extends TestCase
     {
         $employee = ['name' => 'John', 'position' => 'worker', 'hired' => \Carbon\Carbon::now(), 'salary' => 1000];
 
-        $this->post('/employee/store', $employee);
+        $this->post('/employee', $employee);
 
         $this->assertDatabaseHas(
             'employees',
@@ -66,7 +66,7 @@ class EmployeeTest extends TestCase
      */
     public function canValidateGame()
     {
-        $this->post('/employee/store', ['name' => null])
+        $this->post('/employee', ['name' => null])
             ->assertSessionHasErrors('name');
 
         $this->post('/employee/store', ['position' => null])

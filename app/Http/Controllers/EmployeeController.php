@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\View;
 
 class EmployeeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a tree-like listing of the resource.
      *
@@ -92,7 +97,7 @@ class EmployeeController extends Controller
         $data = $request->only('name', 'position', 'hired', 'salary');
         Employee::create($data);
 
-        return redirect()->route('employee');
+        return redirect()->route('employee.index');
     }
 
     /**
@@ -130,7 +135,7 @@ class EmployeeController extends Controller
         $employee->fill($data);
         $employee->save();
 
-        return redirect()->route('employee');
+        return redirect()->route('employee.index');
     }
 
     /**
@@ -143,6 +148,6 @@ class EmployeeController extends Controller
     {
         Employee::destroy($employee->id);
 
-        return redirect()->route('employee');
+        return redirect()->route('employee.index');
     }
 }
