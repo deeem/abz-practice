@@ -33,7 +33,9 @@
 
       <div class="form-group">
         <select class="employee-form-superviser form-control" name="superviser">
+          @isset($employee->superviser)
           <option value="{{ $employee->superviser->id }}">{{ $employee->superviser->name }}</option>
+          @endisset
         </select>
       </div>
 

@@ -96,6 +96,7 @@ class EmployeeTest extends TestCase
      */
     public function canBrowseEmployeeResources()
     {
+        $this->withoutExceptionHandling();
         $this->get('/employee')->assertStatus(200);
         $this->get('/employee/create')->assertStatus(200);
         $this->get("/employee/{$this->employee->id}/edit")->assertStatus(200);
