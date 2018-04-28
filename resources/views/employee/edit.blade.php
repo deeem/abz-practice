@@ -31,6 +31,12 @@
         <input type="input" class="form-control" id="salary" name="salary" value="{{ $employee->salary }}">
       </div>
 
+      <div class="form-group">
+        <select class="employee-form-superviser form-control" name="superviser">
+          <option value="{{ $employee->superviser->id }}">{{ $employee->superviser->name }}</option>
+        </select>
+      </div>
+
       <button type="submit" class="btn btn-primary mb-2">Update employee</button>
     </form>
   </div>

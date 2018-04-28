@@ -131,8 +131,11 @@ class EmployeeController extends Controller
      */
     public function update(UpdateEmployeeRequest $request, Employee $employee)
     {
+        $superviser = Employee::find(request('superviser'));
         $data = $request->only('name', 'position', 'hired', 'salary');
+
         $employee->fill($data);
+        $employee->superviser()->associate($superviser);
         $employee->save();
 
         return redirect()->route('employee.index');
@@ -150,4 +153,21 @@ class EmployeeController extends Controller
 
         return redirect()->route('employee.index');
     }
+
+    /**
+     * Ajax response that contains employees
+     */
+    public function superviser()
+    {
+        $term = request('search');
+        $employees = Employee::where('name', 'like', "%{$term}%")->paginate(10);
+
+        $formattedEmployees = [];
+        foreach ($employees as $employee) {
+          $formattedEmployees[] = ['id' => $employee->id, 'text' => $employee->name];
+        }
+
+        return response()->json($formattedEmployees);
+    }
+
 }
