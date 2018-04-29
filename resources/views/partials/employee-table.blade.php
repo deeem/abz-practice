@@ -14,6 +14,7 @@
       <th>Position</th>
       <th>Hired</th>
       <th>Salary</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
