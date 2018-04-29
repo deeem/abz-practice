@@ -156,6 +156,23 @@ class EmployeeController extends Controller
 
         $employee->fill($data);
         $employee->superviser()->associate($superviser);
+
+        if ($request->hasFile('photo')) {
+
+            $photo = $request->file('photo');
+            $filename = time() . '.' . $photo->getClientOriginalExtension();
+            $request->file('photo')->storeAs('public/photos', $filename);
+
+            // making thumb
+            if (!file_exists(storage_path('app/public/thumbs'))) {
+                mkdir(storage_path('app/public/thumbs', 666, true));
+            }
+
+            Image::make($photo)->resize(100, 100)->save(storage_path('app/public/thumbs/'.$filename));
+
+            $employee->photo = $filename;
+        }
+
         $employee->save();
 
         return redirect()->route('employee.index');

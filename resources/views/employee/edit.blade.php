@@ -3,9 +3,16 @@
 @section('content')
 
 <div class="row justify-content-center">
+  <h3>Update employee</h3>
+</div>
+
+<div class="row justify-content-center">
   <div class="col-6">
-    <h3>Update employee</h3>
-    <form method="POST" action="{{ route('employee.update', ['employee' => $employee->id]) }}">
+    <img src="{{ asset('storage/photos/' . $employee->photo) }}" class="img-fluid">
+  </div>
+
+  <div class="col-6">
+    <form method="POST" action="{{ route('employee.update', ['employee' => $employee->id]) }}"  enctype="multipart/form-data">
       {{ method_field('PUT') }}
       {{ csrf_field() }}
 
@@ -37,6 +44,11 @@
           <option value="{{ $employee->superviser->id }}">{{ $employee->superviser->name }}</option>
           @endisset
         </select>
+      </div>
+
+      <div class="custom-file mb-4">
+        <input type="file" class="custom-file-input" id="photo" name="photo">
+        <label class="custom-file-label" for="photo">{{ isset($employee->photo) ? $employee->photo : 'Choose file...' }}</label>
       </div>
 
       <button type="submit" class="btn btn-primary mb-2">Update employee</button>
