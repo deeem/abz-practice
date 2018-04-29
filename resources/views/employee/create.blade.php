@@ -5,7 +5,7 @@
 <div class="row justify-content-center">
   <div class="col-6">
     <h3>Add employee</h3>
-    <form method="POST" action="{{ route('employee.store')}}">
+    <form method="POST" action="{{ route('employee.store')}}" enctype="multipart/form-data">
       {{ csrf_field() }}
 
       @include('partials.validation-errors')
@@ -28,6 +28,11 @@
       <div class="form-group">
         <label for="salary">Salary</label>
         <input type="input" class="form-control" id="salary" name="salary">
+      </div>
+
+      <div class="custom-file mb-4">
+        <input type="file" class="custom-file-input" id="photo" name="photo">
+        <label class="custom-file-label" for="photo">Choose file...</label>
       </div>
 
       <button type="submit" class="btn btn-primary mb-1">Add employee</button>

@@ -7,6 +7,8 @@ use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
+use Image;
+use Illuminate\Support\Facades\Storage;
 
 class EmployeeController extends Controller
 {
@@ -95,7 +97,25 @@ class EmployeeController extends Controller
     public function store(StoreEmployeeRequest $request)
     {
         $data = $request->only('name', 'position', 'hired', 'salary');
-        Employee::create($data);
+        $employee = Employee::create($data);
+
+        if ($request->hasFile('photo')) {
+
+            $photo = $request->file('photo');
+            $filename = time() . '.' . $photo->getClientOriginalExtension();
+            $request->file('photo')->storeAs('photos', $filename);
+
+            // making thumb
+            if (!file_exists(storage_path('app/thumbs'))) {
+                mkdir(storage_path('app/thumbs', 666, true));
+            }
+
+            Image::make($photo)->resize(100, 100)->save(storage_path('app/thumbs/'.$filename));
+
+            // save employee photo
+            $employee->photo = $filename;
+            $employee->save();
+        }
 
         return redirect()->route('employee.index');
     }
