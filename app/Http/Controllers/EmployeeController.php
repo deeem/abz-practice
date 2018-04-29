@@ -3,11 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Employee;
+use App\Http\Requests\StoreEmployeeRequest;
+use App\Http\Requests\UpdateEmployeeRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 
 class EmployeeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a tree-like listing of the resource.
      *
@@ -76,18 +83,21 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        //
+        return view('employee.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\StoreEmployeeRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreEmployeeRequest $request)
     {
-        //
+        $data = $request->only('name', 'position', 'hired', 'salary');
+        Employee::create($data);
+
+        return redirect()->route('employee.index');
     }
 
     /**
@@ -98,7 +108,7 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
-        //
+        return view('employee.show', compact('employee'));
     }
 
     /**
@@ -109,19 +119,26 @@ class EmployeeController extends Controller
      */
     public function edit(Employee $employee)
     {
-        //
+        return view('employee.edit', compact('employee'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Request\UpdateEmployeeRequest  $request
      * @param  \App\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Employee $employee)
+    public function update(UpdateEmployeeRequest $request, Employee $employee)
     {
-        //
+        $superviser = Employee::find(request('superviser'));
+        $data = $request->only('name', 'position', 'hired', 'salary');
+
+        $employee->fill($data);
+        $employee->superviser()->associate($superviser);
+        $employee->save();
+
+        return redirect()->route('employee.index');
     }
 
     /**
@@ -132,6 +149,25 @@ class EmployeeController extends Controller
      */
     public function destroy(Employee $employee)
     {
-        //
+        Employee::destroy($employee->id);
+
+        return redirect()->route('employee.index');
     }
+
+    /**
+     * Ajax response that contains employees
+     */
+    public function superviser()
+    {
+        $term = request('search');
+        $employees = Employee::where('name', 'like', "%{$term}%")->paginate(10);
+
+        $formattedEmployees = [];
+        foreach ($employees as $employee) {
+          $formattedEmployees[] = ['id' => $employee->id, 'text' => $employee->name];
+        }
+
+        return response()->json($formattedEmployees);
+    }
+
 }

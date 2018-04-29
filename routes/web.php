@@ -18,5 +18,13 @@ Route::get('/', function () {
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/employee-tree', 'EmployeeController@tree')->middleware('auth');
-Route::get('/employee', 'EmployeeController@index')->middleware('auth')->name('employee');
+Route::get('/employee-tree', 'EmployeeController@tree');
+Route::get('/employee', 'EmployeeController@index')->name('employee.index');
+Route::get('/employee/create', 'EmployeeController@create')->name('employee.create');
+Route::post('/employee', 'EmployeeController@store')->name('employee.store');
+Route::get('/employee/{employee}/edit', 'EmployeeController@edit')->name('employee.edit');
+Route::put('/employee/{employee}', 'EmployeeController@update')->name('employee.update');
+Route::get('/employee/{employee}/show', 'EmployeeController@show')->name('employee.show');
+Route::delete('/employee/{employee}', 'EmployeeController@destroy')->name('employee.destroy');
+
+Route::get('/employee-superviser', 'EmployeeController@superviser');
