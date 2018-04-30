@@ -20,6 +20,7 @@ class CreateEmployeesTable extends Migration
             $table->string('position');
             $table->date('hired');
             $table->integer('salary');
+            $table->string('photo')->nullable();
             $table->timestamps();
 
             $table->foreign('parent_id')->references('id')->on('employees');

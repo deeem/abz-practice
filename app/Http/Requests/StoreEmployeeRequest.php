@@ -28,6 +28,7 @@ class StoreEmployeeRequest extends FormRequest
             'position' => 'required|string',
             'hired' => 'required|date',
             'salary' => 'required|numeric',
+            'photo' => 'image'
         ];
     }
 }

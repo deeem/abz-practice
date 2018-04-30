@@ -7,7 +7,9 @@ use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
-
+use Image;
+use Illuminate\Support\Facades\Storage;
+use GuzzleHttp\Psr7\Stream;
 class EmployeeController extends Controller
 {
     public function __construct()
@@ -94,8 +96,19 @@ class EmployeeController extends Controller
      */
     public function store(StoreEmployeeRequest $request)
     {
-        $data = $request->only('name', 'position', 'hired', 'salary');
-        Employee::create($data);
+        $employee = Employee::create(
+            $request->only('name', 'position', 'hired', 'salary')
+        );
+
+        if ($request->superviser) {
+            $superviser = Employee::find(request('superviser'));
+            $employee->superviser()->associate($superviser);
+        }
+
+        if ($request->hasFile('photo')) {
+            $employee->photo = $this->storePhoto($request, $employee);
+            $employee->save();
+        }
 
         return redirect()->route('employee.index');
     }
@@ -131,11 +144,17 @@ class EmployeeController extends Controller
      */
     public function update(UpdateEmployeeRequest $request, Employee $employee)
     {
-        $superviser = Employee::find(request('superviser'));
-        $data = $request->only('name', 'position', 'hired', 'salary');
+        $employee->fill($request->only('name', 'position', 'hired', 'salary'));
 
-        $employee->fill($data);
-        $employee->superviser()->associate($superviser);
+        if ($request->superviser) {
+            $superviser = Employee::find(request('superviser'));
+            $employee->superviser()->associate($superviser);
+        }
+
+        if ($request->hasFile('photo')) {
+            $employee->photo = $this->storePhoto($request, $employee);
+        }
+
         $employee->save();
 
         return redirect()->route('employee.index');
@@ -159,7 +178,7 @@ class EmployeeController extends Controller
      */
     public function superviser()
     {
-        $term = request('search');
+        $term = request('q');
         $employees = Employee::where('name', 'like', "%{$term}%")->paginate(10);
 
         $formattedEmployees = [];
@@ -170,4 +189,22 @@ class EmployeeController extends Controller
         return response()->json($formattedEmployees);
     }
 
+    /**
+     * Store photo from request and make thumb
+     *
+     * @return string stored filename
+     */
+    protected function storePhoto(Request $request, Employee $employee): string
+    {
+        $photo = $request->file('photo');
+        $path =  Storage::disk('local')->putFile('/public/photos/', $photo);
+        $path_parts = pathinfo($path);
+
+        $thumb = Image::make($photo)->resize(100, null, function($constraint) {
+            $constraint->aspectRatio();
+        })->stream($path_parts['extension']);
+        Storage::disk('local')->put('/public/thumbs/'.$path_parts['basename'], $thumb);
+
+        return $path_parts['basename'];
+    }
 }
