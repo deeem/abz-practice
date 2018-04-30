@@ -53,7 +53,7 @@
 
       <div class="custom-file mb-4">
         <input type="file" class="custom-file-input" id="photo" name="photo">
-        <label class="custom-file-label" for="photo">{{ isset($employee->photo) ? $employee->photo : 'Photo' }}</label>
+        <label class="custom-file-label" for="photo">Photo</label>
       </div>
 
       <button type="submit" class="btn btn-primary mb-2">Update employee</button>
