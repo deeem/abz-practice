@@ -29,3 +29,5 @@ Route::delete('/employee/{employee}', 'EmployeeController@destroy')->name('emplo
 
 Route::get('/employee-tree', 'EmployeeController@tree')->name('employee.tree');
 Route::get('/employee-superviser', 'EmployeeController@superviser');
+
+Route::get('/api/subordinates', 'EmployeeController@subordinates');

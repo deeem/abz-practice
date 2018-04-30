@@ -24,9 +24,9 @@ class EmployeeController extends Controller
      */
     public function tree()
     {
-        $employees = Employee::where('id', 1)->get();
+        $employee = Employee::where('id', 1)->first();
 
-        return view('employee.tree', compact('employees'));
+        return view('employee.tree', compact('employee'));
     }
 
     /**
@@ -187,6 +187,17 @@ class EmployeeController extends Controller
         }
 
         return response()->json($formattedEmployees);
+    }
+
+    /**
+     * JSON response that contains subordinates for given superviser
+     */
+    public function subordinates()
+    {
+        $term = request('parent');
+        $employees = Employee::where('parent_id', $term)->get();
+
+        return response()->json($employees);
     }
 
     /**

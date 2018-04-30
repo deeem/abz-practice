@@ -10,6 +10,7 @@
     </div>
   </div>
 </div>
+
 @if($employee->subordinates->count())
   <div class="employee-list pl-5">
     @each('partials.employee', $employee->subordinates, 'employee')
