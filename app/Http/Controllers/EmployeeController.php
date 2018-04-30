@@ -189,7 +189,9 @@ class EmployeeController extends Controller
         $path =  Storage::disk('local')->putFile('/public/photos/', $photo);
         $path_parts = pathinfo($path);
 
-        $thumb = Image::make($photo)->resize(100, null)->stream($path_parts['extension']);
+        $thumb = Image::make($photo)->resize(100, null, function($constraint) {
+            $constraint->aspectRatio();
+        })->stream($path_parts['extension']);
         Storage::disk('local')->put('/public/thumbs/'.$path_parts['basename'], $thumb);
 
         return $path_parts['basename'];
