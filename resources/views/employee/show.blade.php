@@ -5,7 +5,12 @@
 <div class="row justify-content-center">
 
   <div class="card" style="width:30em;">
-    <img src="{{ asset('storage/photos/' . $employee->photo) }}" class="card-img-top">
+    @if($employee->photo)
+      <img src="{{ asset('storage/photos/' . $employee->photo) }}" class="card-img-top">
+    @else
+      <img src="https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg" class="card-img-top">
+    @endif
+
     <div class="card-body">
       <h5 class="card-title">{{ $employee->name }}</h5>
       <p><span class="font-weight-bold">Position</span> {{ $employee->position }}</p>

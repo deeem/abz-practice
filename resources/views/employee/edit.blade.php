@@ -8,7 +8,11 @@
 
 <div class="row justify-content-center">
   <div class="col-6">
-    <img src="{{ asset('storage/photos/' . $employee->photo) }}" class="img-fluid">
+    @if($employee->photo)
+      <img src="{{ asset('storage/photos/' . $employee->photo) }}" class="card-img-top">
+    @else
+      <img src="https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg" class="card-img-top">
+    @endif
   </div>
 
   <div class="col-6">
