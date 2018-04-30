@@ -100,21 +100,7 @@ class EmployeeController extends Controller
         $employee = Employee::create($data);
 
         if ($request->hasFile('photo')) {
-
-            $photo = $request->file('photo');
-            $filename = time() . '.' . $photo->getClientOriginalExtension();
-            $request->file('photo')->storeAs('public/photos', $filename);
-
-            // making thumb
-            if (!file_exists(storage_path('app/public/thumbs'))) {
-                mkdir(storage_path('app/public/thumbs', 666, true));
-            }
-
-            Image::make($photo)->resize(100, 100)->save(storage_path('app/public/thumbs/'.$filename));
-
-            // save employee photo
-            $employee->photo = $filename;
-            $employee->save();
+          $this->storePhoto($request, $employee);
         }
 
         return redirect()->route('employee.index');
@@ -156,24 +142,11 @@ class EmployeeController extends Controller
 
         $employee->fill($data);
         $employee->superviser()->associate($superviser);
+        $employee->save();
 
         if ($request->hasFile('photo')) {
-
-            $photo = $request->file('photo');
-            $filename = time() . '.' . $photo->getClientOriginalExtension();
-            $request->file('photo')->storeAs('public/photos', $filename);
-
-            // making thumb
-            if (!file_exists(storage_path('app/public/thumbs'))) {
-                mkdir(storage_path('app/public/thumbs', 666, true));
-            }
-
-            Image::make($photo)->resize(100, 100)->save(storage_path('app/public/thumbs/'.$filename));
-
-            $employee->photo = $filename;
+          $this->storePhoto($request, $employee);
         }
-
-        $employee->save();
 
         return redirect()->route('employee.index');
     }
@@ -205,6 +178,27 @@ class EmployeeController extends Controller
         }
 
         return response()->json($formattedEmployees);
+    }
+
+    /**
+     * Store photo from request and make thumb
+     */
+    protected function storePhoto(Request $request, Employee $employee)
+    {
+        $photo = $request->file('photo');
+        $filename = time() . '.' . $photo->getClientOriginalExtension();
+        $request->file('photo')->storeAs('public/photos', $filename);
+
+        // making thumb
+        if (!file_exists(storage_path('app/public/thumbs'))) {
+            mkdir(storage_path('app/public/thumbs', 666, true));
+        }
+
+        Image::make($photo)->resize(100, 100)->save(storage_path('app/public/thumbs/'.$filename));
+
+        // save employee photo
+        $employee->photo = $filename;
+        $employee->save();
     }
 
 }
