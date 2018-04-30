@@ -178,7 +178,7 @@ class EmployeeController extends Controller
      */
     public function superviser()
     {
-        $term = request('search');
+        $term = request('q');
         $employees = Employee::where('name', 'like', "%{$term}%")->paginate(10);
 
         $formattedEmployees = [];
