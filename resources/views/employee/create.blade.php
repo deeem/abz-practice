@@ -30,9 +30,18 @@
         <input type="input" class="form-control" id="salary" name="salary">
       </div>
 
+      <div class="form-group">
+        <label for="superviser">Chief</label>
+        <select class="employee-form-superviser form-control" id="superviser" name="superviser">
+          @isset($employee->superviser)
+          <option value="{{ $employee->superviser->id }}">{{ $employee->superviser->name }}</option>
+          @endisset
+        </select>
+      </div>
+
       <div class="custom-file mb-4">
         <input type="file" class="custom-file-input" id="photo" name="photo">
-        <label class="custom-file-label" for="photo">Choose file...</label>
+        <label class="custom-file-label" for="photo">Photo</label>
       </div>
 
       <button type="submit" class="btn btn-primary mb-1">Add employee</button>

@@ -43,7 +43,8 @@
       </div>
 
       <div class="form-group">
-        <select class="employee-form-superviser form-control" name="superviser">
+        <label for="superviser">Chief</label>
+        <select class="employee-form-superviser form-control" id="superviser" name="superviser">
           @isset($employee->superviser)
           <option value="{{ $employee->superviser->id }}">{{ $employee->superviser->name }}</option>
           @endisset
@@ -52,7 +53,7 @@
 
       <div class="custom-file mb-4">
         <input type="file" class="custom-file-input" id="photo" name="photo">
-        <label class="custom-file-label" for="photo">{{ isset($employee->photo) ? $employee->photo : 'Choose file...' }}</label>
+        <label class="custom-file-label" for="photo">{{ isset($employee->photo) ? $employee->photo : 'Photo' }}</label>
       </div>
 
       <button type="submit" class="btn btn-primary mb-2">Update employee</button>

@@ -96,11 +96,18 @@ class EmployeeController extends Controller
      */
     public function store(StoreEmployeeRequest $request)
     {
-        $data = $request->only('name', 'position', 'hired', 'salary');
-        $employee = Employee::create($data);
+        $employee = Employee::create(
+            $request->only('name', 'position', 'hired', 'salary')
+        );
+
+        if ($request->superviser) {
+            $superviser = Employee::find(request('superviser'));
+            $employee->superviser()->associate($superviser);
+        }
+
         if ($request->hasFile('photo')) {
-          $employee->photo = $this->storePhoto($request, $employee);
-          $employee->save();
+            $employee->photo = $this->storePhoto($request, $employee);
+            $employee->save();
         }
 
         return redirect()->route('employee.index');
@@ -137,13 +144,17 @@ class EmployeeController extends Controller
      */
     public function update(UpdateEmployeeRequest $request, Employee $employee)
     {
-        $superviser = Employee::find(request('superviser'));
-
         $employee->fill($request->only('name', 'position', 'hired', 'salary'));
-        $employee->superviser()->associate($superviser);
-        if ($request->hasFile('photo')) {
-          $employee->photo = $this->storePhoto($request, $employee);
+
+        if ($request->superviser) {
+            $superviser = Employee::find(request('superviser'));
+            $employee->superviser()->associate($superviser);
         }
+
+        if ($request->hasFile('photo')) {
+            $employee->photo = $this->storePhoto($request, $employee);
+        }
+
         $employee->save();
 
         return redirect()->route('employee.index');
