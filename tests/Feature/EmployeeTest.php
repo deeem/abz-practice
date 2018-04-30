@@ -2,7 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Employee;
 use Tests\TestCase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
@@ -112,5 +115,28 @@ class EmployeeTest extends TestCase
         $this->get("/employee/{$this->employee->id}/edit")->assertRedirect('/login');
         $this->put("/employee/{$this->employee->id}")->assertRedirect('/login');
         $this->delete("/employee/{$this->employee->id}")->assertRedirect('/login');
+    }
+
+    /**
+     * @test
+     */
+    public function canUploadPhoto()
+    {
+        $this->withoutExceptionHandling();
+        Storage::fake('local');
+
+        $this->post('employee', [
+            'name' => 'John Doe',
+            'position' => 'worker',
+            'hired' => \Carbon\Carbon::now(),
+            'salary' => 1000,
+            'photo' => UploadedFile::fake()->image('photo.jpg'),
+        ]);
+
+        $employee = Employee::where('name', 'John Doe')->first();
+        $filename = $employee->photo;
+
+        Storage::disk('local')->assertExists('/public/photos/' . $filename);
+        Storage::disk('local')->assertExists('/public/thumbs/' . $filename);
     }
 }

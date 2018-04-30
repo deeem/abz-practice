@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Image;
 use Illuminate\Support\Facades\Storage;
-
+use GuzzleHttp\Psr7\Stream;
 class EmployeeController extends Controller
 {
     public function __construct()
@@ -98,9 +98,9 @@ class EmployeeController extends Controller
     {
         $data = $request->only('name', 'position', 'hired', 'salary');
         $employee = Employee::create($data);
-
         if ($request->hasFile('photo')) {
-          $this->storePhoto($request, $employee);
+          $employee->photo = $this->storePhoto($request, $employee);
+          $employee->save();
         }
 
         return redirect()->route('employee.index');
@@ -138,15 +138,13 @@ class EmployeeController extends Controller
     public function update(UpdateEmployeeRequest $request, Employee $employee)
     {
         $superviser = Employee::find(request('superviser'));
-        $data = $request->only('name', 'position', 'hired', 'salary');
 
-        $employee->fill($data);
+        $employee->fill($request->only('name', 'position', 'hired', 'salary'));
         $employee->superviser()->associate($superviser);
-        $employee->save();
-
         if ($request->hasFile('photo')) {
-          $this->storePhoto($request, $employee);
+          $employee->photo = $this->storePhoto($request, $employee);
         }
+        $employee->save();
 
         return redirect()->route('employee.index');
     }
@@ -182,23 +180,18 @@ class EmployeeController extends Controller
 
     /**
      * Store photo from request and make thumb
+     *
+     * @return string stored filename
      */
-    protected function storePhoto(Request $request, Employee $employee)
+    protected function storePhoto(Request $request, Employee $employee): string
     {
         $photo = $request->file('photo');
-        $filename = time() . '.' . $photo->getClientOriginalExtension();
-        $request->file('photo')->storeAs('public/photos', $filename);
+        $path =  Storage::disk('local')->putFile('/public/photos/', $photo);
+        $path_parts = pathinfo($path);
 
-        // making thumb
-        if (!file_exists(storage_path('app/public/thumbs'))) {
-            mkdir(storage_path('app/public/thumbs', 666, true));
-        }
+        $thumb = Image::make($photo)->resize(100, null)->stream($path_parts['extension']);
+        Storage::disk('local')->put('/public/thumbs/'.$path_parts['basename'], $thumb);
 
-        Image::make($photo)->resize(100, 100)->save(storage_path('app/public/thumbs/'.$filename));
-
-        // save employee photo
-        $employee->photo = $filename;
-        $employee->save();
+        return $path_parts['basename'];
     }
-
 }
