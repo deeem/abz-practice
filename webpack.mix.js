@@ -19,5 +19,6 @@ mix.js([
 
 mix.scripts([
   'resources/assets/js/employee-form.js',
-  'resources/assets/js/employee-table.js'
+  'resources/assets/js/employee-table.js',
+  'resources/assets/js/lazy-tree.js'
 ], 'public/js/app.js');
