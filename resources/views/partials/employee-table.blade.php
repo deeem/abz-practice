@@ -1,11 +1,20 @@
-@isset($filters)
 <div class="row justify-content-center">
-  <p class="font-weight-bold">Query result &nbsp;&nbsp;</p>
-  @foreach($filters as $key=>$value)
-    <p>{{ $key }} : <span class="badge badge-info">{{ $value }}</span> &nbsp;&nbsp;</p>
-  @endforeach
+  <div class="card">
+    <div class="card-body">
+      <a href="{{ route('employee.create') }}" class="btn btn-success">Add employee</a>
+    </div>
+  </div>
+  @if($filters)
+  <div class="card">
+    <div class="card-body">
+      <span class="text-success">Applied filters:</span>
+      @foreach($filters as $key=>$value)
+        {{ $key }} : <span class="badge badge-info">{{ $value }}</span> &nbsp;&nbsp;
+      @endforeach
+    </div>
+  </div>
+  @endif
 </div>
-@endisset
 
 <table class="table table-bordered table-hover table-sm">
   <thead class="thead-dark">
