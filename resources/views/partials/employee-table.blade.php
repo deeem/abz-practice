@@ -1,29 +1,25 @@
-<div class="row justify-content-center">
-  <div class="card">
-    <div class="card-body">
-      <a href="{{ route('employee.create') }}" class="btn btn-success">Add employee</a>
+@if($filters)
+  <div class="row justify-content-center mt-4">
+    <div class="alert alert-warning">
+        <span class="text-success">Applied filters:</span>
+        @foreach($filters as $key=>$value)
+          {{ $key }} : <span class="badge badge-info">{{ $value }}</span> &nbsp;&nbsp;
+        @endforeach
+        <a href="{{ route('employee.index') }}" class="btn btn-info btn-danger">Clear</a>
     </div>
   </div>
-  @if($filters)
-  <div class="card">
-    <div class="card-body">
-      <span class="text-success">Applied filters:</span>
-      @foreach($filters as $key=>$value)
-        {{ $key }} : <span class="badge badge-info">{{ $value }}</span> &nbsp;&nbsp;
-      @endforeach
-    </div>
-  </div>
-  @endif
-</div>
+@endif
 
-<table class="table table-bordered table-hover table-sm">
-  <thead class="thead-dark">
+<table class="table table-bordered table-hover mt-4">
+  <thead class="thead-light">
     <tr>
       <th>Name</th>
       <th>Position</th>
       <th>Hired</th>
       <th>Salary</th>
-      <th></th>
+      <th>
+        <a href="{{ route('employee.create') }}" class="btn btn-success">Add</a>
+      </th>
     </tr>
   </thead>
   <tbody>

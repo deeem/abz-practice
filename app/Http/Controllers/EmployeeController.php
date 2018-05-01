@@ -64,7 +64,7 @@ class EmployeeController extends Controller
             $filters['sort'] = $sort;
         }
 
-        $employees = $query->paginate(20);
+        $employees = $query->paginate(10);
         $employees->appends($filters)->links();
 
         if (request()->ajax()) {
