@@ -33,10 +33,21 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
+
+
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
 
+                    </ul>
+
+                    <ul class="navbar-nav view-links">
+                      <li class="nav-item">
+                        <a href="{{ route('employee.tree') }}" class="nav-link">Tree View</a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="{{ route('employee.index') }}" class="nav-link">Table View</a>
+                      </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

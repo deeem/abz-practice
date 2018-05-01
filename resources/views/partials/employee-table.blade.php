@@ -1,20 +1,25 @@
-@isset($filters)
-<div class="row justify-content-center">
-  <p class="font-weight-bold">Query result &nbsp;&nbsp;</p>
-  @foreach($filters as $key=>$value)
-    <p>{{ $key }} : <span class="badge badge-info">{{ $value }}</span> &nbsp;&nbsp;</p>
-  @endforeach
-</div>
-@endisset
+@if($filters)
+  <div class="row justify-content-center mt-4">
+    <div class="alert alert-warning">
+        <span class="text-success">Applied filters:</span>
+        @foreach($filters as $key=>$value)
+          {{ $key }} : <span class="badge badge-info">{{ $value }}</span> &nbsp;&nbsp;
+        @endforeach
+        <a href="{{ route('employee.index') }}" class="btn btn-info btn-danger">Clear</a>
+    </div>
+  </div>
+@endif
 
-<table class="table table-bordered table-hover table-sm">
-  <thead class="thead-dark">
+<table class="table table-bordered table-hover mt-4">
+  <thead class="thead-light">
     <tr>
       <th>Name</th>
       <th>Position</th>
       <th>Hired</th>
       <th>Salary</th>
-      <th></th>
+      <th>
+        <a href="{{ route('employee.create') }}" class="btn btn-success">Add</a>
+      </th>
     </tr>
   </thead>
   <tbody>
