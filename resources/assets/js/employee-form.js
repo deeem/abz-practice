@@ -3,7 +3,7 @@ $(document).ready(function() {
   $('.employee-form-superviser').select2({
     minimumInputLength: 2,
     ajax: {
-      url: '/employee-superviser',
+      url: '/api/superviser',
       dataType: 'json',
       data: function (params) {
         return {

@@ -24,9 +24,9 @@ class EmployeeController extends Controller
      */
     public function tree()
     {
-        $employees = Employee::where('id', 1)->get();
+        $employee = Employee::where('id', 1)->first();
 
-        return view('employee.tree', compact('employees'));
+        return view('employee.tree', compact('employee'));
     }
 
     /**
@@ -181,12 +181,33 @@ class EmployeeController extends Controller
         $term = request('q');
         $employees = Employee::where('name', 'like', "%{$term}%")->paginate(10);
 
-        $formattedEmployees = [];
+        $data = [];
         foreach ($employees as $employee) {
-          $formattedEmployees[] = ['id' => $employee->id, 'text' => $employee->name];
+          $data[] = ['id' => $employee->id, 'text' => $employee->name];
         }
 
-        return response()->json($formattedEmployees);
+        return response()->json($data);
+    }
+
+    /**
+     * JSON response that contains subordinates for given superviser
+     */
+    public function subordinates()
+    {
+        $term = request('parent');
+        $employees = Employee::where('parent_id', $term)->get();
+
+        $data = [];
+        foreach ($employees as $employee) {
+            $data[] = [
+                'id' => $employee->id,
+                'name' => $employee->name,
+                'position' => $employee->position,
+                'photo' => $employee->photo,
+                'expandable' => $employee->subordinates->count() ? true : false
+            ];
+        }
+        return response()->json($data);
     }
 
     /**
