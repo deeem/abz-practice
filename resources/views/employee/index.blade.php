@@ -3,12 +3,6 @@
 @section('content')
 
 <div class="row justify-content-center">
-  <a href="{{ route('employee.tree') }}" class="btn btn-primary btn-large">Tree View</a>
-  <a href="{{ route('employee.index') }}" class="btn btn-primary btn-large active ml-2">Table View</a>
-</div>
-<hr>
-
-<div class="row justify-content-center">
   <div class="col-md3 ml-md-auto">
     <p class="employee-table-sort">
       <a href="{{ route('employee.index', ['sort' => 'name']) }}">Sort by name</a>&nbsp;&nbsp;&nbsp;

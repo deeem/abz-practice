@@ -2,12 +2,6 @@
 
 @section('content')
 
-<div class="row justify-content-center">
-  <a href="{{ route('employee.tree') }}" class="btn btn-primary btn-large active">Tree View</a>
-  <a href="{{ route('employee.index') }}" class="btn btn-primary btn-large ml-2">Table View</a>
-</div>
-<hr>
-
 <div class="lazy-employee-list pl-5">
 
   <div class="lazy-employee-item bg-white rounded shadow">
