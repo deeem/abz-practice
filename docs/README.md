@@ -38,7 +38,9 @@
  - Файл проекта Workbench
  
 ## Установка
-Требуется расширение php gd. Устанавливается как типовое приложение Laravel.
+Требуется расширение php gd. 
+
+Устанавливается как типовое приложение Laravel. Для локальной установки можно использовать [этот](https://github.com/deeem/docker-environments/tree/laravel) docker-контейнер.
 
 - npm install
 - composer install
