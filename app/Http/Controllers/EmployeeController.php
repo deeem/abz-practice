@@ -181,12 +181,12 @@ class EmployeeController extends Controller
         $term = request('q');
         $employees = Employee::where('name', 'like', "%{$term}%")->paginate(10);
 
-        $formattedEmployees = [];
+        $data = [];
         foreach ($employees as $employee) {
-          $formattedEmployees[] = ['id' => $employee->id, 'text' => $employee->name];
+          $data[] = ['id' => $employee->id, 'text' => $employee->name];
         }
 
-        return response()->json($formattedEmployees);
+        return response()->json($data);
     }
 
     /**
