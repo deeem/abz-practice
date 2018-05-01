@@ -24,7 +24,7 @@
       </div>
 
       <div class="col-2">
-        <a href="#" class="btn btn-outline-primary mt-1 mb-1 pl-2 pr-2">show</a>
+        <a href="{{ route('employee.show', ['id' => $employee->id]) }}" class="btn btn-outline-primary mt-1 mb-1 pl-2 pr-2">show</a>
         <a href="#" class="btn btn-outline-info lazy-employee-expand">expand</a>
       </div>
 

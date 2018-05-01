@@ -1,23 +1,32 @@
 $(document).ready(function(){
 
-  $('.lazy-employee-expand').first().data('id', 1);
+  $('.lazy-employee-expand').first().data('id', 1).data('expanded', false);
 
   $(document).on('click', '.lazy-employee-expand',function (e) {
     e.preventDefault();
     var url = 'api/subordinates?parent=' + $(this).data('id');
     var parent = $(this).parent().parent().parent();
 
-    $.ajax({
-      url: url,
-      dataType: 'json',
-    }).done(function(data) {
-      if (data.length > 0) {
-        var subordinatesList = generateList(data);
-        parent.after(subordinatesList);
-      }
-    }).fail(function(){
-      alert('Network error');
-    });
+    if (! $(this).data('expanded')) {
+      $(this).data('expanded', true);
+      $(this).text('collapse');
+
+      $.ajax({
+        url: url,
+        dataType: 'json',
+      }).done(function(data) {
+        if (data.length > 0) {
+          var subordinatesList = generateList(data);
+          parent.after(subordinatesList);
+        }
+      }).fail(function(){
+        alert('Network error');
+      });
+    } else {
+      parent.next('.lazy-employee-list').remove();
+      $(this).data('expanded', false);
+      $(this).text('expand');
+    }
 
     function generateList(data) {
       var ul = $('<div class="lazy-employee-list pl-5"></div>');
@@ -42,7 +51,7 @@ $(document).ready(function(){
 
         $('<div class="col-2">' +
           '<a href="/employee/' + data[i].id +'/show" class="btn btn-outline-primary mt-1 mb-1 pl-2 pr-2">show</a>' +
-          '<a href="#" class="btn btn-outline-info lazy-employee-expand" data-id="' + data[i].id +'">expand</a>' +
+          '<a href="#" class="btn btn-outline-info lazy-employee-expand" data-id="' + data[i].id +'" data-expanded="false">expand</a>' +
           '</div>'
         ).appendTo(contents);
 
