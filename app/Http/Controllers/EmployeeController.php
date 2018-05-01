@@ -197,7 +197,17 @@ class EmployeeController extends Controller
         $term = request('parent');
         $employees = Employee::where('parent_id', $term)->get();
 
-        return response()->json($employees);
+        $data = [];
+        foreach ($employees as $employee) {
+            $data[] = [
+                'id' => $employee->id,
+                'name' => $employee->name,
+                'position' => $employee->position,
+                'photo' => $employee->photo,
+                'expandable' => $employee->subordinates->count() ? true : false
+            ];
+        }
+        return response()->json($data);
     }
 
     /**

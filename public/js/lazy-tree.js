@@ -49,11 +49,18 @@ $(document).ready(function(){
           '<div>'
         ).appendTo(contents);
 
-        $('<div class="col-2">' +
-          '<a href="/employee/' + data[i].id +'/show" class="btn btn-outline-primary mt-1 mb-1 pl-2 pr-2">show</a>' +
-          '<a href="#" class="btn btn-outline-info lazy-employee-expand" data-id="' + data[i].id +'" data-expanded="false">expand</a>' +
-          '</div>'
-        ).appendTo(contents);
+        if (data[i].expandable) {
+          $('<div class="col-2">' +
+            '<a href="/employee/' + data[i].id +'/show" class="btn btn-outline-primary mt-1 mb-1 pl-2 pr-2">show</a>' +
+            '<a href="#" class="btn btn-outline-info lazy-employee-expand" data-id="' + data[i].id +'" data-expanded="false">expand</a>' +
+            '</div>'
+          ).appendTo(contents);
+        } else {
+          $('<div class="col-2">' +
+            '<a href="/employee/' + data[i].id +'/show" class="btn btn-outline-primary mt-1 mb-1 pl-2 pr-2">show</a>' +
+            '</div>'
+          ).appendTo(contents);
+        }
 
         li = $('<div class="lazy-employee-item bg-white rounded shadow">');
         contents.appendTo(li);
