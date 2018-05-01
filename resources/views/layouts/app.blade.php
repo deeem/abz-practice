@@ -41,7 +41,7 @@
 
                     </ul>
 
-                    <ul class="navbar-nav">
+                    <ul class="navbar-nav view-links">
                       <li class="nav-item">
                         <a href="{{ route('employee.tree') }}" class="nav-link">Tree View</a>
                       </li>
