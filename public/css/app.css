@@ -11043,11 +11043,7 @@ a.text-dark:focus {
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
-.employee-list {
-  /*  padding-left: 2.5em;*/
-}
-
-.employee-list-item {
+.lazy-employee-item {
   padding: 1em;
   border: 1px solid #9e9e9e;
   margin: .5em;
